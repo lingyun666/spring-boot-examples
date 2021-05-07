@@ -23,25 +23,23 @@ public class UploadController {
     }
 
     @PostMapping("/upload") // //new annotation since 4.3
-    public String singleFileUpload(@RequestParam("file") MultipartFile file,
-        RedirectAttributes redirectAttributes) {
-        if (file.isEmpty()) {
-            redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
+    public String singleFileUpload(@RequestParam("file") MultipartFile multipartFile, RedirectAttributes redirectAttributes) {
+        if (multipartFile.isEmpty()) {
+            redirectAttributes.addFlashAttribute("message", "Please select a multipartFile to upload");
             return "redirect:uploadStatus";
         }
 
         try {
-            // Get the file and save it somewhere
-            byte[] bytes = file.getBytes();
+            // Get the multipartFile and save it somewhere
+            byte[] bytes = multipartFile.getBytes();//获取MultipartFile文字为二进制数据流
             Path dir = Paths.get(UPLOADED_FOLDER);
-            Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
+            Path path = Paths.get(UPLOADED_FOLDER + multipartFile.getOriginalFilename());
             // Create parent dir if not exists
-            if(!Files.exists(dir)) {
-                Files.createDirectories(dir);
+            if (!Files.exists(dir)) {// 判断该文件夹是否存在
+                Files.createDirectories(dir); // 创建文件夹
             }
-            Files.write(path, bytes);
-            redirectAttributes.addFlashAttribute("message",
-                "You successfully uploaded '" + file.getOriginalFilename() + "'");
+            Files.write(path, bytes);// 将文件流写入上述文件路径中
+            redirectAttributes.addFlashAttribute("message", "You successfully uploaded '" + multipartFile.getOriginalFilename() + "'");
 
         } catch (IOException e) {
             redirectAttributes.addFlashAttribute("message", "Server throw IOException");
