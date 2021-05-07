@@ -22,8 +22,6 @@ public class UploadController {
     private static String UPLOAD_FOLDER = "E://temp//";
     /**
      * 重定向到"upload.html"
-     *
-     * @return
      */
     @GetMapping("/")
     public String index() {
@@ -32,9 +30,6 @@ public class UploadController {
 
     /**
      * 接收一个文件
-     *
-     * @param multipartFile
-     * @return
      */
     @PostMapping("upload/one")
     @ResponseBody
